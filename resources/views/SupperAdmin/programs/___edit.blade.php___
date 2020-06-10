@@ -1,0 +1,92 @@
+@extends('SupperAdmin.app')
+
+@section('content')
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="margin: 0 0 20px 0;">
+                        <span>
+                            <a href="{{url('/')}}">Главная</a>
+                        </span>&nbsp;-&nbsp;
+                        <span>
+                            <a href="{{url('/users')}}">Пользователи</a>
+                        </span>&nbsp;-&nbsp;
+                        <span>Редактирование пользователя: <span>{{$edit_user->email}}</span></span>
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <form method="PUT" action="{{ url('/users/' . $edit_user->id) }}">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Основная информация</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Приложения</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Логи</a>
+                        </div>
+                    </nav>
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <div class="card-header" style="text-align: center; font-size: 19px;">
+                                Приложения пользователя
+                                <span style="font-weight: bold;">{{$edit_user->email}}</span>
+                            </div>
+                            <div class="card-body" style="padding: 0; margin: 0;">
+                                <table class="table table-hover table-bordered" style="margin: -1px 0 0 0;">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Имя прилы</th>
+                                        <th>Имя прилы для бота</th>
+                                        <th>Статус</th>
+                                        <th>Создан</th>
+                                        <th>Изменен</th>
+                                        <th>Удален</th>
+                                        <th>Вкл/Выкл</th>
+                                    </tr>
+                                    @if(isset($programs) AND count($programs) > 0)
+                                        @foreach($programs as $program)
+                                            <tr>
+                                                <td>{{$program->id}}</td>
+                                                <td>{{$program->name}}</td>
+                                                <td>{{$program->bot_name}}</td>
+                                                <td>{{$program->enable}}</td>
+                                                <td>{{$program->jobs_created_at}}</td>
+                                                <td>{{$program->jobs_updated_at}}</td>
+                                                <td>{{$program->jobs_deleted_at}}</td>
+                                                <td>
+                                                    <label class="switch">
+                                                        @if(in_array($program->id, $edit_user->privileges->show_programs))
+                                                            <input class="user_programs" id="{{$program->id}}" type="checkbox" checked>
+                                                        @else
+                                                            <input class="user_programs" id="{{$program->id}}" type="checkbox">
+                                                        @endif
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="7" style="text-align: center;">Приложений не найдено!</td>
+                                        </tr>
+                                    @endif
+                                </table>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<input id="program_id" value="" type="hidden">
+<input id="job_id" value="" type="hidden">
+<input id="user_id" value="{{$edit_user->id}}" type="hidden">
+@endsection
