@@ -77,17 +77,12 @@ class CabinetUsersController extends UserController
     {
         if($result = $this->isRole()){
 
-            $programs = $this->programs()->getEditUser();
             $roles = Roles::all();
-
-            $time_zones = $this->time_zones()->getAll();
 
             return view($result['role']['dir'] . '.users.create', [
                 'user' => $result['user'],
                 'role' => $result['role'],
-                'programs' => $programs,
                 'roles' => $roles,
-                'time_zones' => $time_zones
             ]);
 
         }else{
@@ -109,79 +104,23 @@ class CabinetUsersController extends UserController
             $input = $request->input();
             $response = $this->response()->Json();
 
-            if(isset($input['name']) && isset($input['cpabro_login']) && isset($input['email']) && isset($input['password']) && isset($input['password_confirm'])){
+            if(isset($input['name']) && isset($input['email']) && isset($input['password']) && isset($input['password_confirm'])){
 
-                if(isset($input['programs_id'])) {
+                $user = new User();
+                $user->parent_user = $result['user']->id;
+                $user->name = $input['name'];
+                $user->roles_id = 4;
+                $user->email = $input['email'];
+                $user->email_verified_code = Str::random(10);
+                $user->password = bcrypt($input['password']);
+                $user->enable = ($input['user_enable'] == "true") ? 1 : 0;
+                $user->remember_token = Str::random(10);
+                $user->created_at = date("Y-m-d H:i:s");
+                $user->save();
 
-                    $user = new User();
-                    $user->parent_user = $result['user']->id;
-                    $user->name = $input['name'];
-                    $user->roles_id = 4;
-                    $user->email = $input['email'];
-                    $user->cpabro_login = $input['cpabro_login'];
-                    $user->time_zone_id = $input['time_zone_id'];
-                    $user->email_verified_code = Str::random(10);
-                    $user->password = bcrypt($input['password']);
-                    $user->enable = ($input['user_enable'] == "true") ? 1 : 0;
-                    $user->remember_token = Str::random(10);
-                    $user->created_at = date("Y-m-d H:i:s");
-                    $user->save();
+                $response->setData('error_status', 'false');
+                $response->setData('id', $user->id);
 
-                    $programs_ids = explode(",", $input['programs_id']);
-
-                    if (in_array("[all]", $programs_ids)) {
-
-                        $programs = $this->programs()->getEditUser();
-
-                        foreach ($programs as $program) {
-
-                            // Пишем массив всех прил массив
-                            $new_programs[] = $program->id;
-                        }
-
-                        // Сораняем данные
-                        $accesses = new Accesses();
-                        $accesses->user_id = $user->id;
-                        $accesses->role_id = 4;
-                        $accesses->privileges = json_encode(["show_programs" => $new_programs]);
-                        $accesses->created_at = date("Y-m-d H:i:s");
-                        $accesses->save();
-
-                        $response->setData('error_status', 'false');
-                        $response->setData('id', $user->id);
-
-                    } else {
-
-                        foreach ($programs_ids as $programs_id) {
-
-                            if(isset($programs_id) && !empty($programs_id)){
-
-                                // Пишем массив ID прил
-                                $new_programs[] = str_replace("[", "", str_replace("]", "", $programs_id));
-
-                            }
-
-                        }
-
-                        // Сораняем данные
-                        $accesses = new Accesses();
-                        $accesses->user_id = $user->id;
-                        $accesses->role_id = 4;
-                        $accesses->privileges = json_encode(["show_programs" => $new_programs]);
-                        $accesses->created_at = date("Y-m-d H:i:s");
-                        $accesses->save();
-
-                        $response->setData('error_status', 'false');
-                        $response->setData('id', $user->id);
-
-                    }
-
-                }else{
-
-                    $response->setData('error_status', 'true');
-                    $response->setData('error_message', 'Необходимо выбрать приложения!');
-
-                }
 
             }else{
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTimeZonesTable extends Migration
+class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,20 +13,22 @@ class CreateTimeZonesTable extends Migration
      */
     public function up()
     {
-        Schema::create('time_zones', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('categories', function (Blueprint $table) {
 
-            $table->unsignedBigInteger('country_id')->nullable(); // ID Страны
+            $table->engine = 'InnoDB';
 
-            $table->string('timezone_name', 255); // Название временной зоны, городов
-            $table->string('timezone_utc', 255);  // Сам временной пояс UTC+-
+            $table->bigIncrements('id'); // ID Категории товаров
 
+            $table->string('alias')->nullable(); // Адрес категории
+            $table->string('name')->nullable(); // Название категории
+
+            $table->string('image')->nullable(); // Картинка категории
+
+            $table->integer('enable')->default(1);  // категория Включен
 
             $table->timestamp('created_at')->nullable(); // Дата создания
             $table->timestamp('updated_at')->nullable(); // Дата изменения
             $table->timestamp('deleted_at')->nullable(); // Дата удаления
-
-            $table->foreign('country_id')->references('id')->on('countries');
 
         });
     }
@@ -38,6 +40,6 @@ class CreateTimeZonesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('time_zones');
+        Schema::dropIfExists('categories');
     }
 }

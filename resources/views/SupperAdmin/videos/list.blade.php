@@ -11,7 +11,7 @@
                             <a href="{{url('/')}}">Главная</a>
                         </span>&nbsp;-&nbsp;
                             <span>
-                            Приложения
+                            Видео
                         </span>
                     </div>
                 </div>
@@ -19,19 +19,19 @@
             <div class="card">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link" id="nav-home-tab" href="{{ url('/users') }}" role="tab" aria-controls="nav-home" aria-selected="true">Юзеры</a>
-                        <a class="nav-item nav-link active" id="nav-profile-tab" href="{{ url('/programs') }}" role="tab" aria-controls="nav-profile" aria-selected="false">Приложения</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" href="{{ url('/logs') }}" role="tab" aria-controls="nav-contact" aria-selected="false">Задания</a>
+                        <a class="nav-item nav-link" id="nav-home-tab" href="{{ url('/users') }}" role="tab" aria-controls="nav-home" aria-selected="true">Пользователи</a>
+                        <a class="nav-item nav-link active" id="nav-profile-tab" href="{{ url('/videos') }}" role="tab" aria-controls="nav-profile" aria-selected="false">Видео</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" href="{{ url('/orders') }}" role="tab" aria-controls="nav-contact" aria-selected="false">Платежи</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-md-6">Список приложений</div>
+                                <div class="col-md-6">Список видео</div>
                                 <div class="col-md-6" style="text-align: right;">
-                                    <a href="{{url('/programs/create')}}" style="color: #ffffff;" type="submit" class="btn btn-primary">
-                                        {{ __('Добавить приложение') }}
+                                    <a href="{{url('/videos/create')}}" style="color: #ffffff;" type="submit" class="btn btn-primary">
+                                        {{ __('Добавить видео') }}
                                     </a>
                                 </div>
                             </div>
@@ -40,36 +40,36 @@
                             <table class="table table-hover table-bordered" style="margin: -1px 0 0 0;">
                                 <tr>
                                     <th>ID</th>
-                                    <th>Имя прилы</th>
-                                    <th>Имя прилы для бота</th>
-                                    <th>Статус</th>
+                                    <th>Название видео</th>
+                                    <th>Лайки</th>
+                                    <th>Дизлайки</th>
+                                    <th>Просмотры</th>
                                     <th>Создана</th>
-                                    <th>Изменена</th>
                                     <th>Вкл/Выкл</th>
                                 </tr>
-                                @if(isset($data_programs) AND count($data_programs) > 0)
+                                @if(isset($data_videos) AND count($data_videos) > 0)
 
-                                    @foreach($data_programs as $data_program)
+                                    @foreach($data_videos as $data_video)
 
                                         <?php
-                                            $class = ($data_program->enable == 1) ? "default" : "table-danger";
+                                            $class = ($data_video->enable == 1) ? "default" : "table-danger";
                                         ?>
 
-                                        <tr id="tr_program_{{$data_program->id}}" class="{{$class}}">
-                                            <td>{{$data_program->id}}</td>
+                                        <tr id="tr_program_{{$data_video->id}}" class="{{$class}}">
+                                            <td>{{$data_video->id}}</td>
                                             <td>
-                                                <a style="display: block; width: 100%; height: 100%;" href="{{ url('/programs/edit/' . $data_program->id) }}">{{$data_program->name}}</a>
+                                                <a style="display: block; width: 100%; height: 100%;" href="{{ url('/videos/edit/' . $data_video->id) }}">{{$data_video->name}}</a>
                                             </td>
-                                            <td>{{$data_program->bot_name}}</td>
-                                            <td>{{$data_program->enable}}</td>
-                                            <td>{{$data_program->created_at}}</td>
-                                            <td>{{$data_program->updated_at}}</td>
+                                            <td>{{$data_video->likes}}</td>
+                                            <td>{{$data_video->dislikes}}</td>
+                                            <td>{{$data_video->views}}</td>
+                                            <td>{{$data_video->created_at}}</td>
                                             <td>
                                                 <label class="switch">
-                                                    @if($data_program->enable == 1)
-                                                        <input class="program_enable" id="{{$data_program->id}}" type="checkbox" checked>
+                                                    @if($data_video->enable == 1)
+                                                        <input class="program_enable" id="{{$data_video->id}}" type="checkbox" checked>
                                                     @else
-                                                        <input class="program_enable" id="{{$data_program->id}}" type="checkbox">
+                                                        <input class="program_enable" id="{{$data_video->id}}" type="checkbox">
                                                     @endif
                                                     <span class="slider round"></span>
                                                 </label>
@@ -84,7 +84,7 @@
                                 <tr>
                                     <td colspan="7" style="text-align: center;">
                                         <div style="display: inline-block;">
-                                            <?=$data_programs->render(); ?>
+                                            <?=$data_videos->render(); ?>
                                         </div>
                                     </td>
                                 </tr>

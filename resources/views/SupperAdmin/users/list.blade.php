@@ -34,19 +34,6 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4">
-                                <select id="FilterSelectUserCpabrologin" class="selectpicker form-control" title="Поиск по логину CPABRO" multiple data-actions-box="true" data-live-search="true" style="font-size: 16px; height: 45px;">
-                                    @foreach($users as $user)
-                                        @if(isset($params['cpabro_login']['in']) AND in_array($user->id, $params['cpabro_login']['in']))
-                                            <option data-tokens="mustard" style="font-size: 16px;" selected value="{{$user->id}}">{{$user->cpabro_login}}</option>
-                                        @elseif(isset($params['cpabro_login']) AND $user->id == $params['cpabro_login'])
-                                            <option data-tokens="mustard" style="font-size: 16px;" selected value="{{$user->id}}">{{$user->cpabro_login}}</option>
-                                        @else
-                                            <option data-tokens="mustard" style="font-size: 16px;" value="{{$user->id}}">{{$user->cpabro_login}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -54,9 +41,9 @@
             <div class="card">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-home-tab" href="{{ url('/users') }}" role="tab" aria-controls="nav-home" aria-selected="true">Юзеры</a>
-                        <a class="nav-item nav-link" id="nav-profile-tab" href="{{ url('/programs') }}" role="tab" aria-controls="nav-profile" aria-selected="false">Приложения</a>
-                        <a class="nav-item nav-link" id="nav-contact-tab" href="{{ url('/logs') }}" role="tab" aria-controls="nav-contact" aria-selected="false">Задания</a>
+                        <a class="nav-item nav-link active" id="nav-home-tab" href="{{ url('/users') }}" role="tab" aria-controls="nav-home" aria-selected="true">Пользователи</a>
+                        <a class="nav-item nav-link" id="nav-profile-tab" href="{{ url('/videos') }}" role="tab" aria-controls="nav-profile" aria-selected="false">Видео</a>
+                        <a class="nav-item nav-link" id="nav-contact-tab" href="{{ url('/orders') }}" role="tab" aria-controls="nav-contact" aria-selected="false">Платежи</a>
                     </div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
@@ -76,7 +63,6 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Email</th>
-                                    <th>Login (CPABRO)</th>
                                     <th>Имя</th>
                                     <th>Дата регистрации</th>
                                     <th>Вкл/Выкл</th>
@@ -94,7 +80,6 @@
                                             <td>
                                                 <a style="display: block; width: 100%; height: 100%;" href="{{url('/users/edit/' . $data_user->id)}}">{{$data_user->email}}</a>
                                             </td>
-                                            <td>{{$data_user->cpabro_login}}</td>
                                             <td>{{$data_user->name}}</td>
                                             <td>{{$data_user->created_at}}</td>
                                             <td>
@@ -107,16 +92,6 @@
                                                     <span class="slider round"></span>
                                                 </label>
                                             </td>
-{{--                                            <td>--}}
-{{--                                                <a href="{{ url('/users/' . $data_user->id . '/edit') }}">--}}
-{{--                                                    <i class="fa fa-pencil"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                <a href="{{ url('/users/delete/' . $data_user->id) }}">--}}
-{{--                                                    <i class="fa fa-trash-o"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </td>--}}
                                         </tr>
                                     @endforeach
                                 @else
@@ -144,7 +119,6 @@
     <input type="hidden" id="FilterIsset" value="<?=(count($params) > 0) ? 1 : ''; ?>">
 
     <input type="hidden" id="FilterSelectUserEmailIds" value="<?=(isset($input['email'])) ? $input['email'] : ''; ?>">
-    <input type="hidden" id="FilterSelectUserCpabrologinIds" value="<?=(isset($input['cpabro_login'])) ? $input['cpabro_login'] : ''; ?>">
 
 </div>
 @endsection

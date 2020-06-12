@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProgramsTable extends Migration
+class CreateTariffsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,21 @@ class CreateProgramsTable extends Migration
      */
     public function up()
     {
-        Schema::create('programs', function (Blueprint $table) {
+        Schema::create('tariffs', function (Blueprint $table) {
 
             $table->engine = 'InnoDB';
 
-            $table->bigIncrements('id'); // ID программы
-            $table->string('name'); // Название программы
-            $table->string('bot_name'); // Название программы
-            //$table->jsonb('roles')->nullable(); // Роли которым будет видна программа
-            $table->integer('enable')->default(1); // Активация программы
+            $table->bigIncrements('id'); // ID тарифа
+
+            $table->string('name')->nullable();
+            $table->longText('description')->nullable();
+
+            $table->float('cost', 10, 2)->nullable(); // Стоимость
+            $table->integer('days')->nullable(); // На сколько дней доступ
+
+            $table->string('image')->nullable();  // Картинка Тарифа
+
+            $table->integer('enable')->default(1);  // Тариф Включен
 
             $table->timestamp('created_at')->nullable(); // Дата создания
             $table->timestamp('updated_at')->nullable(); // Дата изменения
@@ -37,6 +43,6 @@ class CreateProgramsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('programs');
+        Schema::dropIfExists('tariffs');
     }
 }

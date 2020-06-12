@@ -292,12 +292,9 @@ $(document).ready(function(){
                 _token: $('#_token').attr('content'),
                 name: $('#name').val(),
                 email: $('#email').val(),
-                cpabro_login: $('#cpabro_login').val(),
-                time_zone_id: $('#time_zone_id').val(),
                 password: $('#password').val(),
                 password_confirm: $('#password-confirm').val(),
                 user_enable: $('#user_enable').prop('checked'),
-                programs_id: $('#programs_id').val(),
                 response_type: "json"
             },
             dataType: 'json',
@@ -313,23 +310,25 @@ $(document).ready(function(){
 
     });
 
-    $('#program_add_execute').click(function () {
+    $('#video_add_execute').click(function () {
 
         $.ajax({
-            url: '/programs/store',
+            url: '/videos/store',
             type : 'POST',
             data : {
                 _token: $('#_token').attr('content'),
-                program_name: $('#program_name').val(),
-                program_bot_name: $('#program_bot_name').val(),
-                program_enable: $('#program_enable').prop('checked'),
+                video_name: $('#video_name').val(),
+                video_description: $('#video_description').val(),
+                video_keyword: $('#video_keyword').val(),
+                video_html_code: $('#video_html_code').val(),
+                video_enable: $('#video_enable').prop('checked'),
                 users_id: $('#users_id').val(),
                 //response_type: "json"
             },
             dataType: 'json',
-            success: function (return_add_program) {
-                if(return_add_program.error_status === "false") {
-                    location.href = location.origin + "/programs";
+            success: function (return_add_video) {
+                if(return_add_video.error_status === "false") {
+                    location.href = location.origin + "/videos";
                 }
             }
 
@@ -337,24 +336,25 @@ $(document).ready(function(){
 
     });
 
-    $('#program_save_execute').click(function () {
+    $('#video_save_execute').click(function () {
 
         $.ajax({
-            url: '/programs/update/' + $('#program_id').val(),
+            url: '/videos/update/' + $('#video_id').val(),
             type : 'POST',
             data : {
                 _token: $('#_token').attr('content'),
-                program_name: $('#program_name').val(),
-                program_bot_name: $('#program_bot_name').val(),
-                program_enable: $('#program_enable').prop('checked'),
-                users_id: $('#users_id').val(),
-                program_id: $('#program_id').val()
+                video_name: $('#video_name').val(),
+                video_description: $('#video_description').val(),
+                video_keyword: $('#video_keyword').val(),
+                video_html_code: $('#video_html_code').val(),
+                video_enable: $('#video_enable').prop('checked'),
+                video_id: $('#video_id').val()
             },
             dataType: 'json',
-            success: function (return_add_program) {
+            success: function (return_save_video) {
 
-                if(return_add_program.error_status === "false") {
-                    location.href = location.origin + "/programs";
+                if(return_save_video.error_status === "false") {
+                    location.href = location.origin + "/videos";
                 }
             }
 

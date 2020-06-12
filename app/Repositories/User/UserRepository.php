@@ -26,7 +26,7 @@ class UserRepository extends CoreRepository
     }
     public function getAllForFilter(){
         return $this->startConditions()
-            ->select('id', 'email', 'cpabro_login')
+            ->select('id', 'email')
             ->orderBy('id', 'desc')
             ->get();
     }

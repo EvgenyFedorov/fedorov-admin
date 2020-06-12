@@ -12,41 +12,29 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 
-        $this->call(CountriesSeeder::class);
-        $this->call(TimeZonesSeeder::class);
         $this->call(RolesSeeder::class);
+        $this->call(TariffsSeeder::class);
         $this->call(UsersSeeder::class);
-        $this->call(AccessesSeeder::class);
 
-        // Запускаем фабрику и генерируем 10 юзеров
+        // Запускаем фабрику и генерируем 10 простых юзеров
         factory(\App\Models\User::class, 10)->create()->each(function ($user){
+            //
+        });
 
-            // Запускаем фабрику и генерируем по 1 правам к юзеру
-            factory(\App\Models\Users\Accesses::class, 1)->make()->each(function($access) use ($user){
-                $access->user_id = $user->id;
-                $access->role_id = 4;
-                $access->save();
-            });
+        factory(\App\Models\Shop\Categories::class, 5)->create()->each(function ($category){
 
-            factory(\App\Models\Users\Programs::class, 1)->create()->each(function ($program) use ($user){
+            factory(\App\Models\Shop\Products::class, 3)->make()->each(function ($product) use ($category){
 
-                // Запускаем фабрику и генерируем по рандому задачи
-                factory(\App\Models\Bot\Jobs::class, rand(2,6))->make()->each(function($jobs) use ($program, $user){
-                    $jobs->program_id = $program->id;
-                    $jobs->user_id = $user->id;
-                    $jobs->save();
-
-                    // Запускаем фабрику по логам
-                    factory(\App\Models\Bot\Logs::class, 1)->make()->each(function ($logs) use ($jobs){
-                        $logs->job_id = $jobs->id;
-                        $logs->save();
-                    });
-
-                });
+                $product->category_id = $category->id;
+                $product->save();
 
             });
 
         });
+
+        $this->call(VideosSeeder::class);
+        $this->call(ProductsSeeder::class);
+        $this->call(SitesSeeder::class);
 
     }
 }

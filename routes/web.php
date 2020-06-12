@@ -37,7 +37,7 @@ Route::group(array('prefix' => '/', 'middleware' => 'auth'), function (){
 //    Route::resource('users', 'User\\SupperAdmin\\CabinetUsersController')->names('cabinetUsers');
 //    Route::resource('programs', 'User\\SupperAdmin\\CabinetProgramsController')->names('cabinetPrograms');
 
-    Route::group(array('prefix' => 'logs', 'middleware' => 'auth'), function (){
+    Route::group(array('prefix' => 'orders', 'middleware' => 'auth'), function (){
 
         Route::get('', [
             'uses' => 'User\\SupperAdmin\\CabinetLogsController@index',
@@ -167,17 +167,17 @@ Route::group(array('prefix' => '/', 'middleware' => 'auth'), function (){
 
     });
 
-    Route::group(array('prefix' => 'programs', 'middleware' => 'auth'), function (){
+    Route::group(array('prefix' => 'videos', 'middleware' => 'auth'), function (){
 
         Route::get('', [
-            'uses' => 'User\\SupperAdmin\\CabinetProgramsController@index',
+            'uses' => 'User\\SupperAdmin\\CabinetVideosController@index',
             'middleware' => 'auth'
         ]);
 
         Route::group(array('prefix' => 'create', 'middleware' => 'auth'), function (){
 
             Route::get('', [
-                'uses' => 'User\\SupperAdmin\\CabinetProgramsController@create',
+                'uses' => 'User\\SupperAdmin\\CabinetVideosController@create',
                 'middleware' => 'auth'
             ]);
 
@@ -186,7 +186,7 @@ Route::group(array('prefix' => '/', 'middleware' => 'auth'), function (){
         Route::group(array('prefix' => 'store', 'middleware' => 'auth'), function (){
 
             Route::post('', [
-                'uses' => 'User\\SupperAdmin\\CabinetProgramsController@store',
+                'uses' => 'User\\SupperAdmin\\CabinetVideosController@store',
                 'middleware' => 'auth'
             ]);
 
@@ -197,7 +197,7 @@ Route::group(array('prefix' => '/', 'middleware' => 'auth'), function (){
             Route::group(array('prefix' => '{id}', 'middleware' => 'auth'), function (){
 
                 Route::get('', [
-                    'uses' => 'User\\SupperAdmin\\CabinetProgramsController@edit',
+                    'uses' => 'User\\SupperAdmin\\CabinetVideosController@edit',
                     'middleware' => 'auth'
                 ]);
 
@@ -210,7 +210,7 @@ Route::group(array('prefix' => '/', 'middleware' => 'auth'), function (){
             Route::group(array('prefix' => '{id}', 'middleware' => 'auth'), function (){
 
                 Route::post('', [
-                    'uses' => 'User\\SupperAdmin\\CabinetProgramsController@update',
+                    'uses' => 'User\\SupperAdmin\\CabinetVideosController@update',
                     'middleware' => 'auth'
                 ]);
 
@@ -221,7 +221,7 @@ Route::group(array('prefix' => '/', 'middleware' => 'auth'), function (){
         Route::group(array('prefix' => 'enable', 'middleware' => 'auth'), function (){
 
             Route::post('', [
-                'uses' => 'User\\SupperAdmin\\CabinetProgramsController@enableProgram',
+                'uses' => 'User\\SupperAdmin\\CabinetVideosController@enableProgram',
                 'middleware' => 'auth'
             ]);
 

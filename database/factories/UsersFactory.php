@@ -9,7 +9,6 @@ $factory->define(User::class, function (Faker $faker) {
     return [
         'parent_user' => 3,
         'name' => $faker->firstName,
-        'cpabro_login' => $faker->lastName,
         'roles_id' => 4,
         'email' => $faker->email,
         'email_verified_code' => "",

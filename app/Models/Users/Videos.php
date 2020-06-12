@@ -2,33 +2,29 @@
 
 namespace App\Models\Users;
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
-class Programs extends Model
+class Videos extends Model
 {
+
     public function getEditUser(){
-        return DB::table('programs')
+        return DB::table('videos')
             ->where([['enable', 1]])
             ->orderBy('id', 'desc')
             ->get();
     }
 
     public function getEditJob(){
-        return DB::table('programs')
+        return DB::table('videos')
             ->orderBy('id', 'desc')
             ->get();
     }
 
     public function getPaginate(){
-        return DB::table('programs')
-            ->orderBy('programs.id', 'desc')
+        return DB::table('videos')
+            ->orderBy('videos.id', 'desc')
             ->paginate(10);
 
     }
-
-//    public function accesses(){
-//        return $this->hasMany(Accesses::class, 'privileges', 'id');
-//    }
-
 }

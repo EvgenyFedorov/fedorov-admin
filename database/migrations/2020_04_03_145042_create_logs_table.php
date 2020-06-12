@@ -15,9 +15,11 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
 
+            $table->engine = 'InnoDB';
+
             $table->bigIncrements('id');
 
-            $table->unsignedBigInteger('job_id')->nullable(); // ID Задачи
+            $table->unsignedBigInteger('user_id')->nullable(); // ID Юзера
 
             $table->string('description', 255);  // Описание лога
 
@@ -25,7 +27,7 @@ class CreateLogsTable extends Migration
             $table->timestamp('updated_at')->nullable(); // Дата изменения
             $table->timestamp('deleted_at')->nullable(); // Дата удаления
 
-            $table->foreign('job_id')->references('id')->on('jobs');
+            $table->foreign('user_id')->references('id')->on('users');
 
         });
     }

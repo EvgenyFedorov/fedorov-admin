@@ -20,20 +20,28 @@ class CreateUsersTable extends Migration
             $table->bigIncrements('id'); // ID юзера
             $table->integer('parent_user')->default(0); // ID родтельского юзера
             $table->string('name'); // Имя юзера
+
             $table->unsignedBigInteger('roles_id')->default(4); // Роль юзера
+            $table->unsignedBigInteger('tariff_id')->default(1); // Тариф юзера
+
             $table->string('email')->unique(); // Email юзера
-            $table->string('cpabro_login')->nullable(); // Email юзера
             $table->string('email_verified_code')->nullable(); // Код подтверждения Email юзера
             $table->string('password'); // Пароль
             $table->integer('enable')->default(0); // Активация юзера
             $table->rememberToken(); // Токен авторизации
 
             $table->timestamp('email_verified_at')->nullable(); // дата верификации Email
+
+            $table->float('balance', 10, 2)->nullable(); // Баланс
+
+            $table->timestamp('started_at')->nullable(); // Дата старта активации
+            $table->timestamp('stopped_at')->nullable(); // Дата стопа активации
             $table->timestamp('created_at')->nullable(); // Дата создания
             $table->timestamp('updated_at')->nullable(); // Дата изменения
             $table->timestamp('deleted_at')->nullable(); // Дата удаления
 
             $table->foreign('roles_id')->references('id')->on('roles');
+            $table->foreign('tariff_id')->references('id')->on('tariffs');
 
         });
     }
