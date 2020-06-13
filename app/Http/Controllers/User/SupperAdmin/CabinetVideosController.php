@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User\SupperAdmin;
 use App\Http\Controllers\User\UserController;
 use App\Models\User;
 use App\Models\Users\Videos;
+use App\Repositories\Api\Imgur\ImgurRepository;
 use Auth;
 use Composer\DependencyResolver\Transaction;
 use Illuminate\Http\Request;
@@ -60,6 +61,23 @@ class CabinetVideosController extends UserController
         }
     }
 
+    public function upload_image(Request $request){
+
+        if($result = $this->isRole()){
+
+            $input = $request->input();
+            $response = $this->response()->Json();
+
+            $response->setData('error_status', 'false');
+            return $response->jsonEncode();
+
+        }else{
+            Auth::logout();
+            return redirect('/access-denied');
+        }
+
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -83,18 +101,11 @@ class CabinetVideosController extends UserController
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, ImgurRepository $imgurRepository)
     {
         if($result = $this->isRole()){
 
             $input = $request->input();
-
             $response = $this->response()->Json();
 
             DB::beginTransaction();
@@ -105,13 +116,22 @@ class CabinetVideosController extends UserController
 
             $video->alias = (string) Str::uuid() . '-' . Str::slug($input['video_name'], '-');
 
+            $upload_image = $imgurRepository->curlUploadImages($input['upload_file']);
+            $upload_image = json_decode($upload_image);
+            $video->link = $upload_image->success->data->link;
+
             $video->name = $input['video_name'];
             $video->description = $input['video_description'];
+
             $video->keywords = $input['video_keyword'];
-            $video->html_code = $input['video_html_code'];
+            $video->hashtags = $this->getHashTags($input['video_keyword']);
+
+            $video->html_code = str_replace('width="560"', 'width="100%"', $input['video_html_code']);
 
             $video->enable = ($input['video_enable'] == "true") ? 1 : 0;
-            $video->created_at = date("Y-m-d H:i:s");
+            $video->status = ($input['video_status'] == "true") ? 1 : 0;
+
+            $video->created_at = date("Y-m-d H:i:s", date("U") + (3600 * 3));
 
             $video->save();
 
@@ -128,6 +148,25 @@ class CabinetVideosController extends UserController
             return redirect('/access-denied');
 
         }
+    }
+
+    public function getHashTags($keywords){
+
+        $hashtags = explode(",", $keywords);
+        $string = "";
+        $i = 0;
+        foreach ($hashtags as $hashtag){
+            $i++;
+            if(count($hashtags) != $i){
+                $string .= str_replace(" ", "", $hashtag).",";
+            }else{
+                $string .= str_replace(" ", "", $hashtag);
+            }
+
+        }
+
+        return $string;
+
     }
 
     /**

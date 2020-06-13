@@ -2,6 +2,99 @@ $(document).ready(function(){
 
     console.log(location);
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    $('input[type]:file').change(function () {
+
+        var element = document.getElementById("file");
+        var file = element.files[0];
+        var reader = new FileReader();
+        reader.onloadend = function() {
+            //console.log('RESULT', reader.result)
+            $('#upload_file').val(reader.result);
+
+            $('#content_upload_image').html('<img id="submit_upload_image" style="width: 100%;" src="data:' + $('#upload_file').val() + '">');
+
+        }
+
+        reader.readAsDataURL(file);
+
+    });
+
+    $('#save_images_server').click(function(){
+
+        //startPreLoader();
+
+        $.ajax({
+            url: '../../../videos/image/upload',
+            type : 'POST',
+            data : {
+                _token: $('#_token').attr('content'),
+                upload_file: $('#upload_file').val().replace(/.*,/, '')
+            },
+            dataType: 'json',
+            success: function (return_upload_image) {
+
+                if(return_upload_image.error_status == "false"){
+
+                    //stopPreLoader();
+                    $('#show_upload_image').attr('src', $('#upload_file').val());
+                    $('#delete_upload_image').show();
+
+                    $('#content_upload_image').val('');
+                    $('input[type]:file').val('');
+
+                    $('#submit_upload_image').remove();
+
+                }
+
+            }
+
+        });
+
+    });
+
+    $('#delete_upload_image').click(function () {
+
+        const loc = location;
+
+        startPreLoader();
+
+        $.ajax({
+            url: '../../../api/server/delete_upload_image',
+            type : 'POST',
+            data : {
+                _token: $('#_token').attr('content'),
+                server_id: $('#server_id').val()
+            },
+            dataType: 'json',
+            success: function (return_delete_upload_image) {
+
+                if(return_delete_upload_image.error_status == "false"){
+
+                    stopPreLoader();
+                    setDefaultImage();
+                    //$('#success_image_upload').html('<div><div><div style="position: absolute; right: 20px; top: 5px;" class="btn btn-danger" id="delete_upload_image">Удалить</div><div id="success_image_upload"><img style="width: 100%;" src="http://' + loc.host + '/img/noimage.png" id="show_upload_image"></div></div></div>');
+
+                }
+
+            }
+
+        });
+
+    });
+
+    function setDefaultImage(){
+
+        const loc = location;
+
+        $('.block_upload_image_all').html('<div class="delete_upload_image"></div>');
+        $('.block_upload_image_all').append('<img style="width: 100%;" src="http://' + loc.host + '/img/noimage.png" id="show_upload_image">');
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
     $('#FilterSelectUserEmail').on('change', function (e, clickedIndex, isSelected, previousValue) {
 
         if($('#FilterSelectUserEmailIds').val().length > 0 && $(this).val() !== null) {
@@ -322,7 +415,9 @@ $(document).ready(function(){
                 video_keyword: $('#video_keyword').val(),
                 video_html_code: $('#video_html_code').val(),
                 video_enable: $('#video_enable').prop('checked'),
+                video_status: $('#video_status').prop('checked'),
                 users_id: $('#users_id').val(),
+                upload_file: $('#upload_file').val().replace(/.*,/, '')
                 //response_type: "json"
             },
             dataType: 'json',

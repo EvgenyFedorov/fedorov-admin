@@ -11,14 +11,16 @@ abstract class CoreRepository{
     protected $model;
     public $input;
 
-    public function __construct(Request $request){
+    public function __construct(){
         $this->model = app($this->getModelClass());
-        $this->input = $request->input();
     }
 
     abstract protected function getModelClass();
 
-    protected function  startConditions(){
+    protected function staticCondition(){
+        return $this->model;
+    }
+    protected function startConditions(){
         return clone $this->model;
     }
 }

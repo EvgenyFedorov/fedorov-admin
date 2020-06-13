@@ -26,14 +26,18 @@ class CreateVideosTable extends Migration
             $table->string('name', 255);  // Заголовок видео
             $table->longText('description');  // Описание видео
             $table->longText('keywords');  // Теги видео
+            $table->longText('hashtags');  // ХешТеги видео
             $table->longText('html_code');  // Html код для вставки видео
 
             $table->integer('likes')->default(0);  // Кол-во лайков
-            $table->integer('dislikes')->default(0);  // Кол-во дизлайков
+            $table->integer('comments')->default(0);  // Кол-во комментов
 
             $table->integer('views')->default(0);  // Кол-во просмотров
 
             $table->integer('enable')->default(1);  // Видео Включено
+            $table->integer('status')->default(1);  // Отображается и на главной
+
+            $table->string('link')->default(1);  // Ссылка на изображение
 
             $table->timestamp('created_at')->nullable(); // Дата создания
             $table->timestamp('updated_at')->nullable(); // Дата изменения

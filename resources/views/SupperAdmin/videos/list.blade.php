@@ -42,7 +42,7 @@
                                     <th>ID</th>
                                     <th>Название видео</th>
                                     <th>Лайки</th>
-                                    <th>Дизлайки</th>
+                                    <th>Комментарии</th>
                                     <th>Просмотры</th>
                                     <th>Создана</th>
                                     <th>Вкл/Выкл</th>
@@ -61,7 +61,7 @@
                                                 <a style="display: block; width: 100%; height: 100%;" href="{{ url('/videos/edit/' . $data_video->id) }}">{{$data_video->name}}</a>
                                             </td>
                                             <td>{{$data_video->likes}}</td>
-                                            <td>{{$data_video->dislikes}}</td>
+                                            <td>{{$data_video->comments}}</td>
                                             <td>{{$data_video->views}}</td>
                                             <td>{{$data_video->created_at}}</td>
                                             <td>

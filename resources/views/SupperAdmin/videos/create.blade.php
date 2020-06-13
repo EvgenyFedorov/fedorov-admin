@@ -90,6 +90,51 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group row" style="" id="upload_images">
+                                    <label for="" class="col-md-4 col-form-label text-md-right">
+                                        <!-- Кнопка запуска модального окна -->
+                                        <button type="submit" class="btn btn-default" data-toggle="modal" data-target="#myModalImage">
+                                            {{ __('Загрузить картинку') }}
+                                        </button>
+                                    </label>
+                                    <div class="col-md-6">
+                                        <div class="block_upload_image_all">
+                                            <div class="delete_upload_image" style="display: none;">
+                                                <div style="position: absolute; right: 20px; top: 5px;" class="btn btn-danger" id="delete_upload_image">Удалить</div>
+                                            </div>
+                                            <img style="width: 100%;" src="{{asset('img/noimage.png')}}" id="show_upload_image">
+                                        </div>
+                                        <div class="form-group row">
+                                            <!-- Модальное окно -->
+                                            <div class="modal fade" id="myModalImage" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 style="display: block; text-align: center;" class="modal-title" id="myModalLabel">Загрузка изображение</h4>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <input type="file" id="file" class="form-control" value="ЗАГРУЗИТЬ">
+                                                            <input type="hidden" id="upload_file">
+                                                            <div id="content_upload_image"></div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <div class="col-md-6" style="text-align: left;">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Отменить</button>
+                                                            </div>
+                                                            <div class="col-md-6" style="text-align: right;">
+                                                                <button type="button" class="btn btn-success" data-dismiss="modal" id="save_images_server">Сохранить</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div class="form-group row">
                                     <label for="password-confirm" class="col-md-4 col-form-label text-md-right">
                                         {{ __('Вкл/Выкл') }}
@@ -98,6 +143,19 @@
                                     <div class="col-md-6">
                                         <label class="switch">
                                             <input type="checkbox" checked id="video_enable">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">
+                                        {{ __('Доступно всем') }}
+                                    </label>
+
+                                    <div class="col-md-6">
+                                        <label class="switch">
+                                            <input type="checkbox" checked id="video_status">
                                             <span class="slider round"></span>
                                         </label>
                                     </div>

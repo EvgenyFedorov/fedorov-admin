@@ -174,6 +174,19 @@ Route::group(array('prefix' => '/', 'middleware' => 'auth'), function (){
             'middleware' => 'auth'
         ]);
 
+        Route::group(array('prefix' => 'image', 'middleware' => 'auth'), function (){
+
+            Route::group(array('prefix' => 'upload', 'middleware' => 'auth'), function (){
+
+                Route::post('', [
+                    'uses' => 'User\\SupperAdmin\\CabinetVideosController@upload_image',
+                    'middleware' => 'auth'
+                ]);
+
+            });
+
+        });
+
         Route::group(array('prefix' => 'create', 'middleware' => 'auth'), function (){
 
             Route::get('', [
